@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+
+
+{% block body %}
+
+
+<h3 class="mute my-3 text-xl text-gray-500">এখন পর্যন্ত</h3>
+
+    
+<div class="gap-2 grid grid-cols-2 md:grid-cols-3">
+  <div class="p-2 rounded-md shadow-sm bg-gray-100 flex flex-col items-center justify-center ">
+    
+    <img class="rounded w-[90px]"
+src="https://api.dicebear.com/9.x/icons/svg?seed=Felix"
+alt="avatar" />
+
+<h2 class="my-2 text-bold text-gray-500 text-2xl">
+ {{totalcustomer}}
+</h2>
+
+<p class="mute text-sm text-gray-400">
+ জন কাস্টমার
+</p>
+    
+
+    
+    
+    
+  </div>
+  
+  
+  
+  
+       <div class="p-2 rounded-md shadow-sm bg-gray-100 flex flex-col items-center justify-center ">
+    
+    <img class="rounded w-[90px]"
+src="https://api.dicebear.com/9.x/icons/svg?seed=money"
+alt="avatar" />
+
+<h2 class="my-2 text-bold text-gray-500 text-2xl">
+ {{totalloan}}
+</h2>
+
+<p class="mute text-center text-gray-400">
+ টাকা মোট লোন
+</p>
+    
+
+    
+    
+    
+  </div>
+  
+  
+  
+  
+            <div class="p-2 rounded-md shadow-sm bg-gray-100 flex flex-col items-center justify-center ">
+    
+    <img class="rounded w-[90px]"
+src="https://api.dicebear.com/9.x/icons/svg?seed=come"
+alt="avatar" />
+
+<h2 class="my-2 text-bold text-gray-500 text-2xl">
+ {{totaltaked}}
+</h2>
+
+<p class="mute text-center text-gray-400">
+ টাকা তোলা হয়েছে
+</p>
+  </div>
+  
+  
+</div>
+ <!-- grid end here -->
+ 
+ <h3 class="mute my-5 text-xl text-gray-500">আজকের ডাটা</h3>
+ <!-- another grid start -->
+ 
+ <div class="gap-2 grid grid-cols-1 md:grid-cols-2 my-2">
+   
+   <div class="bg-red-700 flex items-center justify-around p-4 rounded shadow-sm">
+    <i class="text-red-300 text-4xl bi bi-bank2"></i> 
+    
+    
+    <div>
+      <p class="mute text-xs text-white">
+        আজকে লোন দেওয়া হয়েছে
+      </p>
+      
+      <h2 class="text-white text-sm">15,000</h2>
+    </div>
+    
+    
+    
+   </div>
+   
+   
+   
+   
+         <div class="bg-green-700 flex items-center justify-around p-4 rounded shadow-sm">
+           <i class="text-green-300 text-4xl bi bi-cash-stack"></i>
+   
+   
+           <div>
+             <p class="mute text-xs text-white">
+               আজকে টাকা তোলা হয়েছে
+             </p>
+   
+             <h2 class="text-white text-sm">2,000</h2>
+           </div>
+   
+   
+   
+         </div>
+   
+   
+   
+   
+   
+   
+   
+ </div>
+ 
+
+{% endblock %}

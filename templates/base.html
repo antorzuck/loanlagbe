@@ -1,0 +1,280 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+ 
+  
+ 
+  
+ 
+
+  <style>
+  
+@import url('https://fonts.maateen.me/adorsho-lipi/font.css');
+
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&display=swap');
+
+h1, ul, li, p,.mute{
+ font-family: 'AdorshoLipi', sans-serif !important;
+  font-weight: 400 ;
+  font-style: normal;
+}
+
+
+h2{
+  font-family: "Gabarito", sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 2em !important;
+ 
+  letter-spacing: -0.4px !important;
+  margin-bottom: 20px;
+  line-height: 1 !important;
+}
+
+
+
+
+ul{
+  font-family: "Open Sans";
+}
+
+
+.navcol{
+  background-color: #2E3440;
+}
+
+.bdcol{
+  background-color: #242933;
+}
+
+rng{
+  border: 1px solid #2E3440;
+}
+
+.tx h1{
+  color: #D8DEE9;
+}
+
+
+.hglt{
+  rotate: 9deg;
+}
+
+p{
+  font-family: "Gabarito", sans-serif !important;
+  
+  font-size: 1.1em !important;
+}
+
+  </style>
+  
+</head>
+
+<body x-data="{open : false}" class="p-0 m-0 gap-0 md:flex bg-gray-200">
+  
+  
+  <nav x-show="open" class="rng md:!block fixed navcol w-60 h-screen top-0 md:top-auto z-10">
+    <div class="nav flex items-center justify-between">
+      <a class="p-4 px-4 text-2xl" href="">
+        <h1 class="pt-2 text-pink-400">লোন লাগবে</h1>
+      </a>
+      <a @click="open = !open" class="md:hidden mr-2 px-2 py-2 rounded-md bg-gray-700 text-white ring ring-1 ring-gray-600">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+        </svg>
+      </a>
+    </div>
+    
+    
+    
+    
+    
+    <ul class="text-white p-3 items">
+      
+              <div class="py-3 flex items-center text-sm text-gray-300 after:flex-1">BASE</div>
+      
+      
+      <li class="font-bold p-2 hover:rounded-md hover:bg-gray-700 hover:text-pink-400">
+        <i style="font-size: 1.5rem;" class="bi bi-house-heart-fill"></i>
+        
+         ড্যাশবোর্ড</li>
+         
+         
+       
+      <li onclick="showcats()" class="font-bold p-2 hover:rounded-md hover:bg-gray-700 hover:text-pink-400">
+        
+        <div class="flex justify-between">
+          
+          <div>
+        <i style="font-size: 1.5rem;" class="bi bi-person-circle"></i>
+         কাস্টমার
+         </div>
+         
+         <div id="cd" class="mt-2">
+           <i class="bi bi-caret-right-fill"></i>
+         </div>
+         
+         
+                 </li>
+                
+                 
+                 
+         <div id="cats" class="hidden mt-2 ml-12 text-white">
+           <ul class="text-gray-300 flex flex-col gap-3">
+             
+             <a href="">
+             <li class="p-1 hover:bg-gray-600 hover:text-pink-400 rounded-md">নতুন কাস্টমার</li>
+             </a>
+             
+             
+                          <a href="">
+                            <li class="p-1 hover:bg-gray-600 hover:text-pink-400 rounded-md">সব কাস্টমার</li>
+                          </a>
+             
+             
+             
+             
+          
+           </ul>
+         </div>
+
+         
+
+         
+          <li onclick="showloan()" class="font-bold p-2 hover:rounded-md hover:bg-gray-700 hover:text-pink-400">
+    
+            <div class="flex justify-between">
+    
+              <div>
+                <i style="font-size: 1.5rem;" class="bi bi-bank"></i>
+                লোন
+              </div>
+    
+              <div id="ln" class="mt-2">
+                <i class="bi bi-caret-right-fill"></i>
+              </div>
+    
+    
+          </li>
+          
+          
+          
+                   <div id="loan" class="hidden mt-2 ml-12 text-white">
+                     <ul class="text-gray-300 flex flex-col gap-3">
+          
+                       <a href="">
+                         <li class="p-1 hover:bg-gray-600 hover:text-pink-400 rounded-md">লোন টাইপ</li>
+                       </a>
+          
+          
+                       <a href="">
+                         <li class="p-1 hover:bg-gray-600 hover:text-pink-400 rounded-md"></li>
+                       </a>
+          
+          
+          
+          
+          
+                     </ul>
+                   </div>
+          
+          
+          
+          
+          
+          
+         
+      
+              <div class="py-4 flex items-center text-sm text-gray-300 after:flex-1">ACCOUNTS</div>
+      
+      
+    </ul>
+  </nav>
+
+
+
+
+  <div class="md:flex-grow">
+    <header class="fixed w-full top-0  navcol flex items-center gap-1 h-16 p-2 text-white z-1">
+      <a @click="open = !open" class="md:hidden ring ring-1 ring-gray-600 p-2 bg-gray-700 rounded-md">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </a>
+      <logo>
+        <h1 class="ml-2 text-pink-400 pt-2 md:hidden text-2xl">লোন লাগবে</h1>
+      </logo>
+    </header>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    <main class="pt-16 p-1 m-1 md:ml-60">
+
+        {% block body %}
+
+        {% endblock %}
+      
+    </main>
+   
+  </div>
+  
+  
+
+  
+  
+  
+</body>
+
+<script>
+
+
+
+
+
+
+
+  function showcats(){
+  
+  var shw = document.getElementById('cats');
+  var cd = document.getElementById('cd');
+  
+  cd.style.transform = "rotate(90deg)";
+  shw.classList.toggle('hidden');
+  }
+  
+  
+  
+  
+  function showloan() {
+  
+    var shw = document.getElementById('loan');
+    var cd = document.getElementById('ln');
+  
+    cd.style.transform = "rotate(90deg)";
+    shw.classList.toggle('hidden');
+  }
+  
+  
+  
+</script>
+
+
+
+
+
+</html>
