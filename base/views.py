@@ -13,13 +13,39 @@ def dashboard(request):
     totaltaked = sum([i.amount for i in taked])
 
     todayloangive = loans.filter(created_at__date=today)
-    print(todayloangive)
-    print("hajfhjhfkjhdfjkhsdkjfhsjd")
+    todayloantake = taked.filter(created_at__date=today)
+
 
     context = {
         'totalcustomer' : Customer.objects.all().count(),
         'totalloan' : totalloans,
-        'totaltaked' : totaltaked
+        'totaltaked' : totaltaked,
+        'todayloangive' : todayloangive,
+        'todayloantake' : todayloantake
     }
 
     return render(request, 'home.html', context)
+
+
+def create_customer(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        address = request.POST.get('address')
+        loans_id = request.POST.get('loans')
+        total_loan_amount = request.POST.get('total_loan_amount')
+        dp = request.FILES.get('dp')
+        notes = request.POST.get('notes')
+        customer = Customer.objects.create(
+            name=name,
+            address=address,
+            loans=Loan.objects.get(id=loans_id),
+            total_loan_amount=total_loan_amount,
+            dp=dp,
+            notes=notes
+        )
+
+        return render(request, 'customer.html', context={'msg' : 'কাস্টমার ক্রিয়েট করা হয়েছে।'})
+    context = {
+        'loans' : Loan.objects.all()
+    }
+    return render(request, 'customer.html', context)

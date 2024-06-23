@@ -31,6 +31,7 @@ class Customer(Base):
     have_to_paid = models.IntegerField(default=0)
     dp = models.FileField(upload_to='dp', null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
+    mission_complete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -75,6 +76,24 @@ class TotalTake(Base):
 def after_creating(sender, instance, created, **kwargs):
     if created:
         loan_amount = instance.total_loan_amount
+        instance.have_to_paid = loan_amount
+        instance.save()
+
+
         TotalLoan.objects.create(amount=loan_amount)
-    else:
-        TotalTake.objects.create(amount=instance.already_paid)
+
+
+@receiver(post_save, sender=Payment)
+def after_creating(sender, instance, created, **kwargs):
+    if created:
+        cust = instance.customer
+        cust.already_paid = cust.already_paid + instance.amount
+        cust.have_to_paid = cust.have_to_paid - instance.amount
+        cust.save()
+
+        if cust.already_paid >= cust.total_loan_amount:
+            cust.mission_complete = True
+            cust.save()
+            
+
+        TotalTake.objects.create(amount=instance.amount)

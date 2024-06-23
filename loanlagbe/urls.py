@@ -5,5 +5,6 @@ from base.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', dashboard)
+    path('', dashboard),
+    path('create-customer', create_customer)
 ]
