@@ -3,52 +3,117 @@
 
 {% block body %}
 
-<div class="grid grid-cols-1 gap-2">
-
-{% for c in customer %}
-<div class="m-2 p-2 rounded bg-white flex flex-col justify-center ring ring-1 ring-gray-300">
-
-<div class="flex items-center justify-center">
-<img class="rounded-full w-[100px]"  src="https://api.dicebear.com/9.x/identicon/svg?seed={{c.name}}"/>
-</div>
-
-<div class="info flex items-start justify-between mx-5 my-2">
-<p class="mute">নাম</p>
-<p class="mute">{{c.name}}</p>
-</div>
-<hr>
 
 
-<div class="info flex items-start justify-between mx-5 my-2">
-<p class="mute">লোনের ধরন</p>
-<p class="mute">{{c.loans.name}}</p>
-</div>
-<hr>
-
-<div class="info flex items-start justify-between mx-5 my-2">
-<p class="mute">লোনের পরিমান</p>
-<p class="mute">৳{{c.total_loan_amount}}</p>
-</div>
-<hr>
-
-<div class="info flex items-start justify-between mx-5 my-1">
-<p class="mute">পরিশোধ করেছে</p>
-<p class="mute">৳{{c.already_paid}}</p>
-</div>
-<hr>
-
-<div class="info flex items-start justify-between mx-5 my-1">
-<p class="mute">বাকি আছে</p>
-<p class="mute">৳{{c.have_to_paid}}</p>
-</div>
-<hr>
 
 
-</div>
+<form class="mb-5 max-w-md mx-auto" method="GET" action="/see-customer">   
+  <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only">খুঁজুন</label>
+  <div class="relative">
+      <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+          </svg>
+      </div>
+      <input name="q" type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="নাম লিখে কাস্টমার খুঁজুন..." required />
+      <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">খুঁজুন</button>
+  </div>
+</form>
 
-{% endfor %}
 
-</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+
+   {% for c in customer %}
+
+   <!-- Modal -->
+   <div id="modal-{{c.id}}" class="z-10 fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
+     <div class="bg-white rounded-lg p-6 w-96">
+       <h1 class="text-xl mb-4">পেমেন্ট এড করুন</h1>
+       <form id="modalForm-{{c.id}}" class="space-y-4" method="POST" action="/add-payment">
+         {% csrf_token %}
+         <div>
+           <label for="input1-{{c.id}}" class="mute block text-gray-700">এমাউন্ট</label>
+           <input type="hidden" value="{{c.id}}" name="cid">
+           <input type="text" id="input1-{{c.id}}" name="amount" class="w-full p-2 border border-gray-300 rounded-lg">
+         </div>
+   
+         <div class="flex justify-end space-x-2">
+           <button type="button" id="closeModalBtn-{{c.id}}" class="px-4 py-2 bg-gray-500 text-white rounded-lg">বাতিল</button>
+           <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg">সাবমিট</button>
+         </div>
+       </form>
+     </div>
+   </div>
+   
+   <div class="z-0 relative m-2 p-2 rounded bg-white flex flex-col justify-center ring ring-1 ring-gray-300">
+    {% if c.have_to_paid != 0 %}
+      <button data-modal-id="modal-{{c.id}}" class="openModalBtn top-1 right-1 absolute text-white py-2 px-4 rounded bg-gray-700">
+       <i class="text-xl bi bi-file-earmark-plus-fill"></i> এড পেমেন্ট
+     </button>
+    {% endif %}
+   
+     <div class="flex items-center justify-center">
+       <img class="rounded-full w-[100px]" src="https://api.dicebear.com/9.x/identicon/svg?seed={{c.name}}" />
+     </div>
+   
+     <div class="info flex items-start justify-between mx-5 my-2">
+       <p class="mute">নাম</p>
+       <p class="mute gab">{{c.name}}</p>
+     </div>
+     <hr>
+   
+     <div class="info flex items-start justify-between mx-5 my-2">
+       <p class="mute">লোনের ধরন</p>
+       <p class="mute gab">{{c.loans.name}}</p>
+     </div>
+     <hr>
+   
+     <div class="info flex items-start justify-between mx-5 my-2">
+       <p class="mute">লোনের পরিমান</p>
+       <p class="mute gab">৳{{c.total_loan_amount}}</p>
+     </div>
+     <hr>
+   
+     <div class="info flex items-start justify-between mx-5 my-1">
+       <p class="mute">পরিশোধ করেছে</p>
+       <p class="mute gab">৳{{c.already_paid}}</p>
+     </div>
+     <hr>
+   
+     <div class="info flex items-start justify-between mx-5 my-1">
+       <p class="mute">বাকি আছে</p>
+       <p class="mute gab">৳{{c.have_to_paid}}</p>
+     </div>
+     <hr>
+   </div>
+   
+   {% endfor %}
+   
+   <script>
+     document.addEventListener('DOMContentLoaded', function () {
+       const openModalButtons = document.querySelectorAll('.openModalBtn');
+       openModalButtons.forEach(button => {
+         button.addEventListener('click', function () {
+           const modalId = this.getAttribute('data-modal-id');
+           const modal = document.getElementById(modalId);
+           modal.classList.remove('hidden');
+         });
+       });
+   
+       const closeModalButtons = document.querySelectorAll('[id^="closeModalBtn-"]');
+       closeModalButtons.forEach(button => {
+         button.addEventListener('click', function () {
+           const modalId = this.id.replace('closeModalBtn-', 'modal-');
+           const modal = document.getElementById(modalId);
+           modal.classList.add('hidden');
+         });
+       });
+     });
+   </script>
+
+
+
 
 
 {% endblock %}

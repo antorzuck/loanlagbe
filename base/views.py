@@ -53,7 +53,23 @@ def create_customer(request):
 
 
 def show_customer(request):
-    context = {'customer' : Customer.objects.all()}
+    customers = Customer.objects.all()
+    if request.GET.get('q'):
+        customers = customers.filter(name__icontains=request.GET.get('q'))
+    context = {'customer' : customers}
     return render(request, 'seecustomer.html', context)
+
+
+def add_payment(request):
+    if request.method == 'POST':
+        amount = request.POST.get('amount')
+        custid = request.POST.get('cid')
+
+        Payment.objects.create(
+            customer=Customer.objects.get(id=custid),
+            amount=int(amount)
+        )
+        return redirect('/see-customer')
+
 
 
