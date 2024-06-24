@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+<div class="grid grid-cols-1 gap-2">
+
+{% for c in customer %}
+<div class="m-2 p-2 rounded bg-white flex flex-col justify-center ring ring-1 ring-gray-300">
+
+<div class="flex items-center justify-center">
+<img class="rounded-full w-[100px]"  src="https://api.dicebear.com/9.x/identicon/svg?seed={{c.name}}"/>
+</div>
+
+<div class="info flex items-start justify-between mx-5 my-2">
+<p class="mute">নাম</p>
+<p class="mute">{{c.name}}</p>
+</div>
+<hr>
+
+
+<div class="info flex items-start justify-between mx-5 my-2">
+<p class="mute">লোনের ধরন</p>
+<p class="mute">{{c.loans.name}}</p>
+</div>
+<hr>
+
+<div class="info flex items-start justify-between mx-5 my-2">
+<p class="mute">লোনের পরিমান</p>
+<p class="mute">৳{{c.total_loan_amount}}</p>
+</div>
+<hr>
+
+<div class="info flex items-start justify-between mx-5 my-1">
+<p class="mute">পরিশোধ করেছে</p>
+<p class="mute">৳{{c.already_paid}}</p>
+</div>
+<hr>
+
+<div class="info flex items-start justify-between mx-5 my-1">
+<p class="mute">বাকি আছে</p>
+<p class="mute">৳{{c.have_to_paid}}</p>
+</div>
+<hr>
+
+
+</div>
+
+{% endfor %}
+
+</div>
+
+
+{% endblock %}

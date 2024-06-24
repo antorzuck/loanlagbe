@@ -12,8 +12,8 @@ def dashboard(request):
     taked = TotalTake.objects.all()
     totaltaked = sum([i.amount for i in taked])
 
-    todayloangive = loans.filter(created_at__date=today)
-    todayloantake = taked.filter(created_at__date=today)
+    todayloangive = sum([i.amount for i in loans.filter(created_at__date=today)])
+    todayloantake = sum([i.amount for i in taked.filter(created_at__date=today)])
 
 
     context = {
@@ -49,3 +49,11 @@ def create_customer(request):
         'loans' : Loan.objects.all()
     }
     return render(request, 'customer.html', context)
+
+
+
+def show_customer(request):
+    context = {'customer' : Customer.objects.all()}
+    return render(request, 'seecustomer.html', context)
+
+
