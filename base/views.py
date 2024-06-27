@@ -29,22 +29,48 @@ def dashboard(request):
 
 def create_customer(request):
     if request.method == 'POST':
+        #getting customer text infos
         name = request.POST.get('name')
-        address = request.POST.get('address')
         loans_id = request.POST.get('loans')
         total_loan_amount = request.POST.get('total_loan_amount')
-        dp = request.FILES.get('dp')
-        notes = request.POST.get('notes')
+        mobile = request.POST.get('mobile')
+        payable = request.POST.get('payable')
+
+        #getting customer documents info
+        cnid = request.FILES.get('cnid')
+        cstamp = request.FILES.get('cstamp')
+        cphoto = request.FILES.get('cphoto')
+
+        #getting jaminder documents info
+        jnid = request.FILES.get('jnid')
+        jstamp = request.FILES.get('jstamp')
+        jphoto = request.FILES.get('jphoto')
+        jname = request.POST.get('jname')
+
+
         customer = Customer.objects.create(
             name=name,
-            address=address,
             loans=Loan.objects.get(id=loans_id),
             total_loan_amount=total_loan_amount,
-            dp=dp,
-            notes=notes
+         
+            mobile=mobile,
+            have_to_paid=payable,
+            dp=cphoto
         )
 
-        return render(request, 'customer.html', context={'msg' : 'কাস্টমার ক্রিয়েট করা হয়েছে।'})
+        docs = Document.objects.create(
+            customer=customer,
+            cus_nid=cnid,
+            cus_stamp=cstamp,
+            cus_photo=cphoto,
+
+            jamin_name=jname,
+            jamin_nid = jnid,
+            jamin_photo=jphoto,
+            jamin_stamp = jstamp
+        )
+
+        return render(request, 'customer.html', context={'msg' : 'কাস্টমার ক্রিয়েট করা হয়েছে।', 'loans' : Loan.objects.all()})
     context = {
         'loans' : Loan.objects.all()
     }

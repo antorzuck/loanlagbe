@@ -22,7 +22,9 @@
      
 
 
-        <form class="space-y-2">
+        <form class="space-y-2" method="POST" action="/create-customer" enctype="multipart/form-data">
+
+            {% csrf_token %}
             <!-- User Info Section -->
             <div class="bg-white p-6 rounded-lg shadow-sm space-y-4">
                 <h2 class="text-xl font-semibold text-gray-900">নতুন কাস্টমার যোগ করুন</h2>
@@ -33,24 +35,28 @@
                     </div>
                     <div>
                         <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">মোবাইল নং</label>
-                        <input type="tel" name="phone" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="123-456-7890" required>
+                        <input type="tel" name="mobile" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="123-456-7890" required>
                     </div>
                     <div>
                         <label for="loan-amount" class="block mb-2 text-sm font-medium text-gray-900">লোনের পরিমান</label>
-                        <input type="number" name="loan-amount" id="loan-amount" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="10000" required>
+                        <input type="number" name="total_loan_amount" id="loan-amount" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="10000" required>
                     </div>
                     <div>
                         <label for="loan-type" class="block mb-2 text-sm font-medium text-gray-900">লোনের ধরন</label>
-                        <select name="loan-type" id="loan-type" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
-                            <option value="" disabled selected>Select loan type</option>
-                            <option value="personal">Personal</option>
-                            <option value="business">Business</option>
-                            <option value="mortgage">Mortgage</option>
+                        <select name="loans" id="loan-type" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required>
+                            <option value="" disabled selected>লোণের ধরন সিলেক্ট করুন</option>
+
+                            {% for loan in loans %}
+
+                            <option value="{{loan.id}}">{{loan.name}}</option>
+
+                            {% endfor %}
+            
                         </select>
                     </div>
                     <div>
                         <label for="payable-amount" class="block mb-2 text-sm font-medium text-gray-900">পরিশোধযোগ্য </label>
-                        <input type="number" name="payable-amount" id="payable-amount" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="12000" required>
+                        <input type="number" name="payable" id="payable-amount" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="12000" required>
                     </div>
                 </div>
             </div>
@@ -62,21 +68,21 @@
                     <div class="z-0">
                         <label for="nid" class="block mb-2 text-sm font-medium text-gray-900">জাতীয় পরিচয় পত্র</label>
                         <div class="file-input-wrapper">
-                            <input type="file" name="nid" id="nid" required onchange="updateFileName(this)">
+                            <input type="file" name="cnid" id="nid" required onchange="updateFileName(this)">
                             <label for="nid" id="nid-label" class="file-input-label">Choose file</label>
                         </div>
                     </div>
                     <div>
                         <label for="agreement" class="block mb-2 text-sm font-medium text-gray-900">চুক্তিপত্র</label>
                         <div class="file-input-wrapper">
-                            <input type="file" name="agreement" id="agreement" required onchange="updateFileName(this)">
+                            <input type="file" name="cstamp" id="agreement" required onchange="updateFileName(this)">
                             <label for="agreement" id="agreement-label" class="file-input-label">Choose file</label>
                         </div>
                     </div>
                     <div>
                         <label for="passport-image" class="block mb-2 text-sm font-medium text-gray-900">পাসপোর্ট ছবি</label>
                         <div class="file-input-wrapper">
-                            <input type="file" name="passport-image" id="passport-image" required onchange="updateFileName(this)">
+                            <input type="file" name="cphoto" id="passport-image" required onchange="updateFileName(this)">
                             <label for="passport-image" id="passport-image-label" class="file-input-label">Choose file</label>
                         </div>
                     </div>
@@ -88,19 +94,37 @@
                 <h2 class="text-xl font-semibold text-gray-900">জামিনদারের তথ্য ও ডকুমেন্টস</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="z-0">
+                        
                         <label for="nominee-nid" class="block mb-2 text-sm font-medium text-gray-900">জামিনদারের জাতীয় পরিচয়পত্র</label>
                         <div class="file-input-wrapper">
-                            <input type="file" name="nominee-nid" id="nominee-nid" required onchange="updateFileName(this)">
+                            <input type="file" name="jnid" id="nominee-nid" required onchange="updateFileName(this)">
                             <label for="nominee-nid" id="nominee-nid-label" class="file-input-label">Choose file</label>
                         </div>
                     </div>
                     <div>
                         <label for="nominee-passport" class="block mb-2 text-sm font-medium text-gray-900">জামিনদারের চুক্তিপত্র</label>
                         <div class="file-input-wrapper">
-                            <input type="file" name="nominee-passport" id="nominee-passport" required onchange="updateFileName(this)">
+                            <input type="file" name="jstamp" id="nominee-passport" required onchange="updateFileName(this)">
                             <label for="nominee-passport" id="nominee-passport-label" class="file-input-label">Choose file</label>
                         </div>
                     </div>
+
+
+                    <div>
+                        <label for="passport-image" class="block mb-2 text-sm font-medium text-gray-900">জামিনদারের পাসপোর্ট ছবি</label>
+                        <div class="file-input-wrapper">
+                            <input type="file" name="jphoto" id="passport-image" required onchange="updateFileName(this)">
+                            <label for="passport-image" id="passport-image-label" class="file-input-label">Choose file</label>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900">জামিনদারের নাম</label>
+                        <input type="text" name="jname" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="John Doe" required>
+                    </div>
+
+
                 </div>
             </div>
     

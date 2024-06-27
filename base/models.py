@@ -25,6 +25,7 @@ class Loan(Base):
 class Customer(Base):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
+    mobile = models.CharField(max_length=100)
     loans = models.ForeignKey(Loan, on_delete=models.CASCADE, related_name='user_loan')
     total_loan_amount = models.IntegerField(default=0)
     already_paid = models.IntegerField(default=0)
@@ -32,6 +33,9 @@ class Customer(Base):
     dp = models.FileField(upload_to='dp', null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     mission_complete = models.BooleanField(default=False)
+    profit = models.IntegerField(default=0)
+
+    have_to_pay = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -49,9 +53,10 @@ class Document(Base):
     jamin_nid = models.FileField(null=True, blank=True,upload_to='customer-documents')
     jamin_photo = models.FileField(null=True, blank=True,upload_to='customer-documents')
     jamin_stamp = models.FileField(null=True, blank=True,upload_to='customer-documents')
+    jamin_name = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"documents of {self.customer.namr}"
+        return f"documents of {self.customer.name}"
 
 
 class Payment(Base):
@@ -83,10 +88,10 @@ class TotalTake(Base):
 def after_creating(sender, instance, created, **kwargs):
     if created:
         loan_amount = instance.total_loan_amount
-        instance.have_to_paid = loan_amount
+        have_to_paid = instance.have_to_paid
+        instance.profit = int(loan_amount) - int(have_to_paid)
+        instance.have_to_pay = have_to_paid
         instance.save()
-
-
         TotalLoan.objects.create(amount=loan_amount)
 
 
@@ -98,7 +103,7 @@ def after_creating(sender, instance, created, **kwargs):
         cust.have_to_paid = cust.have_to_paid - instance.amount
         cust.save()
 
-        if cust.already_paid >= cust.total_loan_amount:
+        if cust.already_paid >= cust.have_to_pay:
             cust.mission_complete = True
             cust.save()
             
