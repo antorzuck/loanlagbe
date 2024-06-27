@@ -99,3 +99,11 @@ def add_payment(request):
 
 
 
+def view_profile(request, id):
+   customer = Customer.objects.get(id=id)
+   docs = Document.objects.get(customer=customer)
+   context = {'docs':docs, 'profit': abs(customer.profit), 'customer':customer}
+   return render(request, 'profile.html', context)
+
+
+

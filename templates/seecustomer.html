@@ -47,10 +47,10 @@
    </div>
    
    <div class="z-0 relative m-2 p-2 rounded bg-white flex flex-col justify-center ring ring-1 ring-gray-300">
-    {% if c.have_to_paid != 0 %}
+    {% if c.have_to_paid != 0 %}<!--
       <button data-modal-id="modal-{{c.id}}" class="openModalBtn top-1 right-1 absolute text-white py-2 px-4 rounded bg-gray-700">
        <i class="text-xl bi bi-file-earmark-plus-fill"></i> এড পেমেন্ট
-     </button>
+     </button>-->
     {% endif %}
    
      <div class="flex items-center justify-center">
@@ -86,6 +86,22 @@
        <p class="mute gab">৳{{c.have_to_paid}}</p>
      </div>
      <hr>
+
+<div class="gap-2 mt-2 flex items-center justify-between">
+
+<button data-modal-id="modal-{{c.id}}" class="openModalBtn w-full text-white py-2 px-4 rounded bg-pink-500">
+       <i class="text-xl bi bi-file-earmark-plus-fill"></i> এড পেমেন্ট
+     </button>
+
+<a class="w-full"  href="/profile/{{c.id}}">
+<button class=" text-white py-2 px-4 rounded bg-blue-500 w-full">
+       <i class="text-xl bi bi-person-lines-fill my-auto"></i> প্রফাইল দেখুন
+     </button>
+</a>
+
+</div>
+
+
    </div>
    
    {% endfor %}

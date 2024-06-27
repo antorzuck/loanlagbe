@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+
+
+{% block body %}
+
+
+
+
+
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        <!-- User Info Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+          
+          
+          <div class="flex flex-col gap-3 justify-center items-center">
+            
+            <img class="ring ring-gray-200 rounded-full w-52" src="{{customer.dp.url}}" alt="" />
+            
+            
+            <h2 class="font-bold text-2xl">{{customer.name}}</h2>
+            
+            <p class="text-gray-500">{{customer.mobile}}</p>
+            
+          </div>
+          
+          
+          
+          
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">লোনের ধরন</label>
+                    <p id="profile-name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5">{{customer.loans.name}}</p>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">লোনের পরিমান</label>
+                    <p id="profile-phone" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5">৳{{customer.total_loan_amount}}</p>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">লাভ সহ পরিশোধ্যোগ্য </label>
+                    <p id="profile-loan-amount" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5">৳{{customer.have_to_pay}}</p>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">পরিশোধ করেছেন</label>
+                    <p id="profile-loan-type" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5">৳{{customer.already_paid}}</p>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">আর বাকি আছে</label>
+                    <p id="profile-payable-amount" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5">৳{{customer.have_to_paid}}</p>
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">লাভ হবে
+                    </label>
+                    <p id="profile-phone" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5">৳{{profit}}</p>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <!-- User Documents Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <h2 class="text-xl font-semibold text-gray-900">কাস্টমারের ডকুমেন্টস</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">জাতীয় পরিচয়পত্র </label>
+                    <a href="{{docs.cus_nid.url}}" id="profile-nid" class="text-blue-600 hover:underline">View Document</a>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">চুক্তিপত্র</label>
+                    <a href="{{docs.cus_stamp.url}}" id="profile-agreement" class="text-blue-600 hover:underline">View Document</a>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">পাসপোর্ট ইমেজ</label>
+                    <a href="{{docs.cus_photo.url}}" id="profile-passport-image" class="text-blue-600 hover:underline">View Document</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nominee/Guarantor Documents Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+            <h2 class="text-xl font-semibold text-gray-900">জামিনদারের তথ্য ও ডকুমেন্টস</h2>
+
+
+<div class="flex flex-col gap-3 justify-center items-center">
+
+            <img class="ring ring-gray-200 rounded-full w-52" src="{{docs.jamin_photo.url}}" alt="" />
+
+
+            <h2 class="font-bold text-2xl">{{docs.jamin_name}}</h2>
+
+            <p class="text-gray-500">{{docs.jamin_name}}</p>
+
+          </div>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">জাতীয় পরিচয়পত্র</label>
+                    <a href="{{docs.jamin_nid.url}}" id="profile-nominee-nid" class="text-blue-600 hover:underline">View Document</a>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900">চুক্তিপত্র</label>
+                    <a href="{{docs.jamin_stamp.url}}" id="profile-nominee-passport" class="text-blue-600 hover:underline">View Document</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}
+
+

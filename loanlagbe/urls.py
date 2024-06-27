@@ -9,7 +9,8 @@ urlpatterns = [
     path('', dashboard),
     path('create-customer', create_customer),
     path('see-customer', show_customer),
-    path('add-payment', add_payment)
+    path('add-payment', add_payment),
+    path('profile/<int:id>', view_profile),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
