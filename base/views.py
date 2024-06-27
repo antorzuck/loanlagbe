@@ -18,10 +18,10 @@ def dashboard(request):
 
     context = {
         'totalcustomer' : Customer.objects.all().count(),
-        'totalloan' : totalloans,
-        'totaltaked' : totaltaked,
-        'todayloangive' : todayloangive,
-        'todayloantake' : todayloantake
+        'totalloan' : "{:,}".format(totalloans),
+        'totaltaked' : "{:,}".format(totaltaked),
+        'todayloangive' : "{:,}".format(todayloangive),
+        'todayloantake' : "{:,}".format(todayloantake)
     }
 
     return render(request, 'home.html', context)
@@ -104,6 +104,16 @@ def view_profile(request, id):
    docs = Document.objects.get(customer=customer)
    context = {'docs':docs, 'profit': abs(customer.profit), 'customer':customer}
    return render(request, 'profile.html', context)
+
+
+def loans(request):
+    context = { 'loans':Loan.objects.all().order_by('-id')}
+    if request.method == 'POST':
+        data = request.POST.get('loan_type')
+        c = Loan.objects.create(name=data)
+        return render(request, 'loan.html', context)
+    return render(request, 'loan.html', context)
+
 
 
 
