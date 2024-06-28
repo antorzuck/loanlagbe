@@ -1,9 +1,31 @@
 from django.shortcuts import render, redirect
 from .models import *
 from django.utils import timezone
+from django.db.models import Sum
+
+
+
+def monthly_totals():
+    monthly_totals = []
+    current_year = timezone.now().year
+
+    for month in range(1, 13):
+        monthly_loans = TotalLoan.objects.filter(
+            created_at__year=current_year,
+            created_at__month=month
+        )
+
+        total_amount = monthly_loans.aggregate(Sum('amount'))['amount__sum'] or 0
+        monthly_totals.append(total_amount)
+
+    return monthly_totals
+
 
 
 def dashboard(request):
+    monthly = monthly_totals()
+
+    print(monthly)
     today = timezone.now().date()
 
     loans = TotalLoan.objects.all()
@@ -21,7 +43,8 @@ def dashboard(request):
         'totalloan' : "{:,}".format(totalloans),
         'totaltaked' : "{:,}".format(totaltaked),
         'todayloangive' : "{:,}".format(todayloangive),
-        'todayloantake' : "{:,}".format(todayloantake)
+        'todayloantake' : "{:,}".format(todayloantake),
+        'monthly' : monthly
     }
 
     return render(request, 'home.html', context)

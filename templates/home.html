@@ -139,10 +139,14 @@ alt="avatar" />
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 datasets: [{
-                   label:'# of chart',
-                    data: [80, 19, 3, 5, 2, 3, 100],
+                   label:'2024',
+                    data: [
+                            {% for m in monthly %}
+                             {{m}},
+                             {% endfor %}
+                          ],
                     backgroundColor: [
                         'rgba(245, 40, 145, 1)',
                     ],
