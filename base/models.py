@@ -102,7 +102,7 @@ def after_creating(sender, instance, created, **kwargs):
         instance.have_to_pay = have_to_paid
         instance.save()
         TotalLoan.objects.create(amount=loan_amount)
-        History.objects.create(comment=f"create a customer {instance.name} with {instance.loan_amount} tk loan")
+        History.objects.create(comment=f"create a customer {instance.name} with {instance.total_loan_amount} tk loan")
 
 
 

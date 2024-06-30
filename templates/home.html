@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% load custom_filters %}
+
+
 {% block head %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
 
@@ -11,7 +14,7 @@
 <section class="md:m-9">
 
 
-<div class="grid grid-cols-3">
+<div class="grid grid-cols-3 mr-1">
 
 <div class="col-span-3 md:col-span-2">
 
@@ -146,19 +149,17 @@ alt="avatar" />
 
 
 
-<div class="md:col-span-1 my-3 md:mx-auto ">
+<div class="md:col-span-1 my-3 md:mx-3">
   <h3 class="mute  font-bold text-xl text-gray-500">একশন বাই এডমিন</h3>
   <div class="bg-gray-50 shadow-sm rounded p-6 my-3 w-[29rem] md:w-auto">
 
     {% for h in history %}
 
-    <div class="flex flex-col justify-between items-center bg-gray-200 rounded-xl p-3">
-      <div class="bg-gray-300 p-1 rounded">
-        {{h.created_at|timesince}} ago
-      </div>
-
-      <div>
-        {{h.comment}}
+    <div class="flex gap-1 flex-col justify-between items-center rounded-xl">
+      <div class="ring ring-1 ring-yellow-200 p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
+        <span class="font-medium">
+          {{h.created_at|timesince_simplified}} ago
+        </span> {{h.comment}}
       </div>
 
     </div>
