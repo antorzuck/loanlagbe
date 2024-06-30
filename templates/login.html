@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Loan Lagbe</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+    
+    @import url('https://fonts.maateen.me/solaiman-lipi/font.css');
+
+        
+        
+ body{
+   font-family: 'SolaimanLipi', sans-serif;
+
+   margin:0;
+   
+   min-height: 100vh;
+   background-image: url('/img/create-a-white-color-bg-with-5-money-and-bank-icon-y2F3z5q_SxqkxazJYAiiGw-jTbWYJLrQcGJfPmQMPilYg.jpeg');
+  
+  background-size: cover; /* Ensures the image covers the entire background */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  background-attachment: fixed;
+ }
+        
+        
+        
+    </style>
+</head>
+<body class="h-screen">
+  
+  
+<section class="h-screen flex items-center justify-center">
+    <div class="flex items-center justify-center px-6 py-8 mx-auto">
+        <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900">
+           
+        </a>
+        
+        
+        <div class="w-full bg-white rounded-lg shadow text-black md:mt-0 sm:max-w-md xl:p-0 dark:border-gray-700">
+            
+            
+                        
+            
+            
+            
+            
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 class="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+                    লোন লাগবে লগিন পোর্টাল
+                </h1>
+                <form class="space-y-4 md:space-y-6" action="/signin" method="POST">
+                {% csrf_token %}
+                  
+              
+                 
+                    <div>
+                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 ">ইউজারনেম</label>
+                        <input type="username" name="username" id="username" class="outline-none bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"  placeholder="admin" required="">
+                    </div>
+
+                    
+                    
+                    <div class="mb-4">
+            <label for="password" class="block mb-2 text-sm font-medium text-gray-900">পাসওয়ার্ড</label>
+            <div class="relative">
+                <input type="password" name="password" id="password" placeholder="••••••••" class=" outline-none bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 pr-10" required>
+                <span class="absolute inset-y-0 right-0 flex items-center pr-3">
+
+                    
+                    <svg id="togglePassword" class="eye-icon h-5 w-5 text-gray-700" xmlns="http://www.w3.org/2000/svg"  fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+</svg>
+                    
+                    
+                </span>
+            </div>
+        </div>
+                  
+                    <button type="submit" class="w-full text-white bg-pink-500 hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">লগিন</button>
+                    <p class="text-sm font-light text-gray-500">
+                        কোন একাউন্ট নেই? <a href="/register" class="font-medium text-blue-600 hover:underline">রেজিষ্ট্রেশন করুন</a>
+                    </p>
+                     <p class="text-sm font-light text-gray-500">
+                        পাসওয়ার্ড ভুলে গেছেন? <a href="/forget-password" class="font-medium text-blue-600 hover:underline">রিসেট করুন</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+  </section>
+
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordInput = document.getElementById('password');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function () {
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+
+  
+  
+</body>
+</html>

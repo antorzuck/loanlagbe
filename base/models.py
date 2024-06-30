@@ -84,6 +84,15 @@ class TotalTake(Base):
 
 
 
+
+
+class History(Base):
+    comment = models.TextField()
+
+    def __str__(self):
+        return self.comment
+
+
 @receiver(post_save, sender=Customer)
 def after_creating(sender, instance, created, **kwargs):
     if created:
@@ -93,6 +102,9 @@ def after_creating(sender, instance, created, **kwargs):
         instance.have_to_pay = have_to_paid
         instance.save()
         TotalLoan.objects.create(amount=loan_amount)
+        History.objects.create(comment=f"create a customer {instance.name} with {instance.loan_amount} tk loan")
+
+
 
 
 @receiver(post_save, sender=Payment)
@@ -106,6 +118,5 @@ def after_creating(sender, instance, created, **kwargs):
         if cust.already_paid >= cust.have_to_pay:
             cust.mission_complete = True
             cust.save()
-            
-
         TotalTake.objects.create(amount=instance.amount)
+        History.objects.create(comment=f"create a payment of {instance.amount} tk for customer {cust.name}")

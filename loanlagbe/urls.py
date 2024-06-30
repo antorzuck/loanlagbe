@@ -6,7 +6,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', dashboard),
+    path('', handle_login),
+    path('signin', handle_login),
+    path('dashboard', dashboard),
+    path('logout', handle_logout),
     path('create-customer', create_customer),
     path('see-customer', show_customer),
     path('add-payment', add_payment),

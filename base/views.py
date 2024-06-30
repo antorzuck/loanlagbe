@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.utils import timezone
 from django.db.models import Sum
+from base.decorators import onlyuser
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 
 
 
@@ -21,7 +23,7 @@ def monthly_totals():
     return monthly_totals
 
 
-
+@onlyuser
 def dashboard(request):
     monthly = monthly_totals()
 
@@ -49,7 +51,7 @@ def dashboard(request):
 
     return render(request, 'home.html', context)
 
-
+@onlyuser
 def create_customer(request):
     if request.method == 'POST':
         #getting customer text infos
@@ -100,7 +102,7 @@ def create_customer(request):
     return render(request, 'customer.html', context)
 
 
-
+@onlyuser
 def show_customer(request):
     customers = Customer.objects.all()
     if request.GET.get('q'):
@@ -108,7 +110,7 @@ def show_customer(request):
     context = {'customer' : customers}
     return render(request, 'seecustomer.html', context)
 
-
+@onlyuser
 def add_payment(request):
     if request.method == 'POST':
         amount = request.POST.get('amount')
@@ -121,22 +123,45 @@ def add_payment(request):
         return redirect('/see-customer')
 
 
-
 def view_profile(request, id):
    customer = Customer.objects.get(id=id)
    docs = Document.objects.get(customer=customer)
    context = {'docs':docs, 'profit': abs(customer.profit), 'customer':customer}
    return render(request, 'profile.html', context)
 
-
+@onlyuser
 def loans(request):
     context = { 'loans':Loan.objects.all().order_by('-id')}
     if request.method == 'POST':
         data = request.POST.get('loan_type')
         c = Loan.objects.create(name=data)
+        History.objects.create(comment=f"created a loan type {data}")
         return render(request, 'loan.html', context)
     return render(request, 'loan.html', context)
 
 
+
+
+def handle_login(request):
+    if request.user.is_authenticated:
+        return redirect(dashboard)
+    if request.method == 'GET':
+        return render(request, 'login.html')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        ath = authenticate(username=username.strip(), password=password.strip())
+        if ath is not None:
+            login(request, ath)
+            History.objects.create(comment=f"{username} just logged in")
+            return redirect(dashboard)
+        return render(request, 'login.html', context={'error': 'No user found!'})
+
+
+@onlyuser
+def handle_logout(request):
+    logout(request)
+    return redirect(handle_login)
 
 
