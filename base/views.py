@@ -26,8 +26,6 @@ def monthly_totals():
 @onlyuser
 def dashboard(request):
     monthly = monthly_totals()
-
-    print(monthly)
     today = timezone.now().date()
 
     loans = TotalLoan.objects.all()
@@ -39,6 +37,8 @@ def dashboard(request):
     todayloangive = sum([i.amount for i in loans.filter(created_at__date=today)])
     todayloantake = sum([i.amount for i in taked.filter(created_at__date=today)])
 
+    history = History.objects.all().order_by('-id')[:10]
+
 
     context = {
         'totalcustomer' : Customer.objects.all().count(),
@@ -46,7 +46,8 @@ def dashboard(request):
         'totaltaked' : "{:,}".format(totaltaked),
         'todayloangive' : "{:,}".format(todayloangive),
         'todayloantake' : "{:,}".format(todayloantake),
-        'monthly' : monthly
+        'monthly' : monthly,
+        'history' : history
     }
 
     return render(request, 'home.html', context)
