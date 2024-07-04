@@ -54,7 +54,8 @@
     {% endif %}
    
      <div class="flex items-center justify-center">
-       <img class="rounded-full w-[100px]" 
+
+       <img class="rounded-full h-[120px]  w-[120px]" 
 
        {% if c.dp %}
        src="{{c.dp.url}}"
@@ -62,6 +63,7 @@
        src="https://api.dicebear.com/9.x/initials/svg?seed={{c.name}}"
        {% endif %}
        />
+
      </div>
    
      <div class="info flex items-start justify-between mx-5 my-2">

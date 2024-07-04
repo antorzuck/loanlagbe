@@ -43,9 +43,12 @@
             
             
                         
-            
-            
-            
+{% if error %}
+<div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 mt-5 mx-3" role="alert">
+  <span class="font-medium">Error!</span> {{error}}
+</div>            
+{% endif %}          
+  
             
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <h1 class="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
@@ -82,7 +85,7 @@
                   
                     <button type="submit" class="w-full text-white bg-pink-500 hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">লগিন</button>
                     <p class="text-sm font-light text-gray-500">
-                        কোন একাউন্ট নেই? <a href="/register" class="font-medium text-blue-600 hover:underline">রেজিষ্ট্রেশন করুন</a>
+                        কোন একাউন্ট নেই? <a href="/signup" class="font-medium text-blue-600 hover:underline">রেজিষ্ট্রেশন করুন</a>
                     </p>
                      <p class="text-sm font-light text-gray-500">
                         পাসওয়ার্ড ভুলে গেছেন? <a href="/forget-password" class="font-medium text-blue-600 hover:underline">রিসেট করুন</a>

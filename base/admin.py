@@ -11,5 +11,6 @@ admin.site.register([
     Document,
     Payment,
     TotalLoan,
-    TotalTake
+    TotalTake,
+    Profile
 ])

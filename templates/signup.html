@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Member - Loanlagbe</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.maateen.me/solaiman-lipi/font.css" rel="stylesheet">
+    
+    
+    <style>
+    
+   body {
+    font-family: 'SolaimanLipi', Arial, sans-serif !important;
+}
+
+      
+    </style>
+
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-3xl mx-auto space-y-6">
+        <div class="bg-white p-6 rounded-lg shadow-md space-y-4">
+
+<!--
+{% if messages %}
+<div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 mt-5 mx-3" role="alert">
+  <span class="font-medium">Error!</span> {{messages}}
+</div>
+{% endif %}
+
+-->
+
+{% if messages %}
+                <div>
+                    {% for message in messages %}
+              <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 mt-5 mx-3" role="alert">
+  <span class="font-medium">Error!</span> {{message}}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+
+
+            <h2 class="text-xl font-semibold text-gray-900">মেম্বার একাউন্ট করুন</h2>
+            <form action="/signup" method="POST" enctype="multipart/form-data" class="space-y-4">
+                {% csrf_token %}
+                
+                <!-- User Info Section -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900">নাম</label>
+                        <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="johndoe69" required>
+                    </div>
+                    <div>
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900">ইমেইল</label>
+                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="johndoe69@yahoo.com" required>
+                    </div>
+                    <div>
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900">পাসওয়ার্ড</label>
+                        <input type="password" name="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="******" required>
+                    </div>
+                    <div>
+                        <label for="password2" class="block mb-2 text-sm font-medium text-gray-900">কনফার্ম পাসওয়ার্ড</label>
+                        <input type="password" name="password2" id="password2" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="******" required>
+                    </div>
+                </div>
+
+                <!-- Profile Info Section -->
+                <div>
+            
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                        <div>
+                            <label for="address" class="block mb-2 text-sm font-medium text-gray-900">ঠিকানা</label>
+                            <input type="text" name="address" id="address" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Gulshan, Dhaka" required>
+                        </div>
+                        <div>
+                            <label for="mobile" class="block mb-2 text-sm font-medium text-gray-900">মোবাইল নং</label>
+                            <input type="text" name="mobile" id="mobile" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="01710576368" required>
+                        </div>
+                        <div>
+                            <label for="dp" class="block mb-2 text-sm font-medium text-gray-900">প্রফাইল পিকচার</label>
+                            <input type="file" name="dp" id="dp" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        </div>
+
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-pink-500 text-white p-2 rounded-lg">একাউন্ট করুন</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -127,7 +127,7 @@ p{
 
   </style>
   
-</head>
+0</head>
 
 <body x-data="{open : false}" class="p-0 m-0 gap-0 md:flex bg-gray-200">
   
@@ -244,8 +244,69 @@ p{
          
       
               <div class="py-4 flex items-center text-sm text-gray-300 after:flex-1">ACCOUNTS</div>
-      
-      
+           
+<a href="/all-member">
+      <li class="font-bold p-2 hover:rounded-md hover:bg-gray-700 hover:text-pink-400">
+        <i style="font-size: 1.5rem;" class="bi bi-star-fill"></i>
+
+         মেম্বার</li>
+    </a>
+
+
+
+
+<li onclick="showadmin()" class="font-bold p-2 hover:rounded-md hover:bg-gray-700 hover:text-pink-400">
+
+        <div class="flex justify-between">
+
+          <div class="flex gap-2 justify-around">
+       
+         <img class="ring  ring-gray-500 h-8 w-8 rounded-full" 
+{% if not prof.dp.url %}
+src="https://api.dicebear.com/9.x/initials/svg?seed={{prof.name}}"
+{% else %}
+src="{{prof.dp.url}}"
+{% endif %}
+/>
+        <p class="m-auto"> {{request.user.username}} </p>
+          </div>
+
+         <div id="ad" class="mt-2">
+           <i class="bi bi-caret-right-fill"></i>
+         </div>
+
+
+                 </li>
+
+
+
+         <div id="admin" class="hidden mt-2 ml-12 text-white">
+           <ul class="text-gray-300 flex flex-col gap-3">
+<a href="/edit-member">
+             <li class="p-1 hover:bg-gray-600 hover:text-pink-400 rounded-md">ইডিট প্রফাইল</li>
+ </a>
+
+             <a href="">
+             <li class="p-1 hover:bg-gray-600 hover:text-pink-400 rounded-md">চেঞ্জ পাসওয়ার্ড</li>
+             </a>
+
+
+                          <a href="/logout">
+                            <li class="p-1 hover:bg-gray-600 hover:text-pink-400 rounded-md">লগ আউট</li>
+                          </a>
+
+
+
+
+
+           </ul>
+         </div>
+
+
+
+
+
+     
     </ul>
   </nav>
 
@@ -259,11 +320,14 @@ p{
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
       </a>
+<div class="flex items-center justify-between">
       <logo>
        <a href="/">
  <h1 class="ml-2 text-pink-400 pt-2 text-2xl">লোন লাগবে</h1>
 </a>
       </logo>
+</div>
+
     </header>
     
     
@@ -321,7 +385,14 @@ p{
     shw.classList.toggle('hidden');
   }
   
-  
+  function showadmin() {
+
+    var shw = document.getElementById('admin');
+    var cd = document.getElementById('ad');
+
+    cd.style.transform = "rotate(90deg)";
+    shw.classList.toggle('hidden');
+  }
   
 </script>
 

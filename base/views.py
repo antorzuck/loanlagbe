@@ -4,7 +4,63 @@ from django.utils import timezone
 from django.db.models import Sum
 from base.decorators import onlyuser
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 
+
+def all_member(request):
+    users = Profile.objects.all().order_by('-id')
+    return render(request, 'all_users.html', {'users': users})
+
+
+
+def edit_profile(request, customer_id):
+    customer = get_object_or_404(Customer, id=customer_id)
+    document = get_object_or_404(Document, customer=customer)
+    
+    if request.method == 'POST':
+        # Update Customer info
+        customer.name = request.POST.get('name')
+        customer.address = request.POST.get('address')
+        customer.mobile = request.POST.get('mobile')
+        customer.total_loan_amount = request.POST.get('total_loan_amount')
+        customer.already_paid = request.POST.get('already_paid')
+        customer.have_to_paid = request.POST.get('have_to_paid')
+        customer.profit = request.POST.get('profit')
+
+        if 'dp' in request.FILES:
+            customer.dp = request.FILES['dp']
+
+        customer.save()
+
+        # Update Document info
+        if 'cus_nid' in request.FILES:
+            document.cus_nid = request.FILES['cus_nid']
+        if 'cus_photo' in request.FILES:
+            document.cus_photo = request.FILES['cus_photo']
+        if 'cus_stamp' in request.FILES:
+            document.cus_stamp = request.FILES['cus_stamp']
+        if 'jamin_nid' in request.FILES:
+            document.jamin_nid = request.FILES['jamin_nid']
+        if 'jamin_photo' in request.FILES:
+            document.jamin_photo = request.FILES['jamin_photo']
+        if 'jamin_stamp' in request.FILES:
+            document.jamin_stamp = request.FILES['jamin_stamp']
+
+        document.jamin_name = request.POST.get('jamin_name')
+        document.jamin_mobile = request.POST.get('jamin_mobile')
+        document.jamin_address = request.POST.get('jamin_address')
+
+        document.save()
+
+        messages.success(request, 'Profile updated successfully!')
+        return redirect(f'/edit-profile/{customer_id}')
+    
+    context = {
+        'customer': customer,
+        'document': document,
+    }
+    return render(request, 'edit.html', context)
 
 
 def monthly_totals():
@@ -25,6 +81,12 @@ def monthly_totals():
 
 @onlyuser
 def dashboard(request):
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except Exception as e:
+       print("aaaaaaaaaaaaahhhhhhhhhhh", e)
+       logout(request)
+       return redirect('/')
     monthly = monthly_totals()
     today = timezone.now().date()
 
@@ -41,6 +103,7 @@ def dashboard(request):
 
 
     context = {
+        'profile' : profile,
         'totalcustomer' : Customer.objects.all().count(),
         'totalloan' : "{:,}".format(totalloans),
         'totaltaked' : "{:,}".format(totaltaked),
@@ -61,6 +124,7 @@ def create_customer(request):
         total_loan_amount = request.POST.get('total_loan_amount')
         mobile = request.POST.get('mobile')
         payable = request.POST.get('payable')
+        address = request.POST.get('address')
 
         #getting customer documents info
         cnid = request.FILES.get('cnid')
@@ -78,7 +142,7 @@ def create_customer(request):
             name=name,
             loans=Loan.objects.get(id=loans_id),
             total_loan_amount=total_loan_amount,
-         
+            address=address,
             mobile=mobile,
             have_to_paid=payable,
             dp=cphoto
@@ -93,7 +157,9 @@ def create_customer(request):
             jamin_name=jname,
             jamin_nid = jnid,
             jamin_photo=jphoto,
-            jamin_stamp = jstamp
+            jamin_stamp = jstamp,
+            jamin_address = request.POST.get('jaddress'),
+            jamin_mobile = request.POST.get('jnum')
         )
 
         return render(request, 'customer.html', context={'msg' : 'কাস্টমার ক্রিয়েট করা হয়েছে।', 'loans' : Loan.objects.all()})
@@ -105,7 +171,7 @@ def create_customer(request):
 
 @onlyuser
 def show_customer(request):
-    customers = Customer.objects.all()
+    customers = Customer.objects.all().order_by('-id')
     if request.GET.get('q'):
         customers = customers.filter(name__icontains=request.GET.get('q'))
     context = {'customer' : customers}
@@ -154,6 +220,7 @@ def handle_login(request):
 
         ath = authenticate(username=username.strip(), password=password.strip())
         if ath is not None:
+            print(ath)
             login(request, ath)
             History.objects.create(comment=f"{username} just logged in")
             return redirect(dashboard)
@@ -164,5 +231,94 @@ def handle_login(request):
 def handle_logout(request):
     logout(request)
     return redirect(handle_login)
+
+
+def signup(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        #name = request.POST.get('name')
+        address = request.POST.get('address')
+        mobile = request.POST.get('mobile')
+        dp = request.FILES.get('dp')
+        position = request.POST.get('position')
+        if " " in username:
+            username = username.replace(' ', '')
+
+        if password == password2:
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Username already exists')
+            elif User.objects.filter(email=email).exists():
+                messages.error(request, 'Email already exists')
+            else:
+                user = User.objects.create_user(username=username, email=email, password=password)
+                profile = Profile(user=user, name=username, address=address, mobile=mobile, dp=dp, position=position)
+                profile.save()
+                login(request, user)
+                return redirect(dashboard)
+        else:
+            messages.error(request, 'Passwords do not match')
+
+    return render(request, 'signup.html')
+
+
+
+
+@onlyuser
+def edit_member(request):
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        profile = None
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        address = request.POST.get('address')
+        mobile = request.POST.get('mobile')
+        position = request.POST.get('position')
+        dp = request.FILES.get('dp')
+
+        if profile:
+            profile.name = name
+            profile.address = address
+            profile.mobile = mobile
+            profile.position = position
+            if dp:
+                profile.dp = dp
+            profile.save()
+            messages.success(request, 'Profile updated successfully')
+        else:
+            messages.error(request, 'Profile does not exist')
+
+        return redirect('/edit-member')
+
+    return render(request, 'editmember.html', context={'profile': profile})
+
+
+
+
+@onlyuser
+def change_password(request):
+    if request.method == 'POST':
+        old_password = request.POST['old_password']
+        new_password = request.POST['new_password']
+        confirm_password = request.POST['confirm_password']
+
+        if not request.user.check_password(old_password):
+            messages.error(request, 'Old password is incorrect.')
+        elif new_password != confirm_password:
+            messages.error(request, 'New passwords do not match.')
+        elif old_password == new_password:
+            messages.error(request, 'New password cannot be the same as the old password.')
+        else:
+            request.user.set_password(new_password)
+            request.user.save()
+            update_session_auth_hash(request, request.user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('/change-password')
+
+    return render(request, 'password.html')
 
 

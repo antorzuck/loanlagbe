@@ -5,6 +5,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
+
+
 class Base(models.Model):
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(auto_now=True)
@@ -31,7 +33,7 @@ class Customer(Base):
     already_paid = models.IntegerField(default=0)
     have_to_paid = models.IntegerField(default=0)
     dp = models.FileField(upload_to='dp', null=True, blank=True)
-    notes = models.TextField(null=True, blank=True)
+    #notes = models.TextField(null=True, blank=True)
     mission_complete = models.BooleanField(default=False)
     profit = models.IntegerField(default=0)
 
@@ -53,7 +55,9 @@ class Document(Base):
     jamin_nid = models.FileField(null=True, blank=True,upload_to='customer-documents')
     jamin_photo = models.FileField(null=True, blank=True,upload_to='customer-documents')
     jamin_stamp = models.FileField(null=True, blank=True,upload_to='customer-documents')
-    jamin_name = models.CharField(max_length=100)
+    jamin_name = models.CharField(max_length=100, null=True, blank=True)
+    jamin_mobile = models.CharField(max_length=100, null=True, blank=True)
+    jamin_address = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return f"documents of {self.customer.name}"
@@ -120,3 +124,15 @@ def after_creating(sender, instance, created, **kwargs):
             cust.save()
         TotalTake.objects.create(amount=instance.amount)
         History.objects.create(comment=f"create a payment of {instance.amount} tk for customer {cust.name}")
+
+
+
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
+    mobile = models.CharField(max_length=100)
+    dp = models.FileField(upload_to='member', null=True, blank=True)
+    position = models.CharField(null=True, blank=True, max_length=100)
+
+

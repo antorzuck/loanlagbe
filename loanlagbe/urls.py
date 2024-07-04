@@ -14,7 +14,12 @@ urlpatterns = [
     path('see-customer', show_customer),
     path('add-payment', add_payment),
     path('profile/<int:id>', view_profile),
-    path('loans', loans)
+    path('loans', loans),
+    path('edit-profile/<int:customer_id>', edit_profile),
+    path('signup', signup),
+    path('edit-member', edit_member),
+    path('all-member', all_member),
+    path('change-password', change_password)
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        <div class="bg-gray-50 p-6 rounded-md shadow-sm space-y-4">
+            <h2 class="text-xl font-semibold text-gray-900">এডিট প্রফাইল</h2>
+            <form action="/edit-profile/{{customer.id}}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                {% csrf_token %}
+                
+                <!-- User Info Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">কাস্টমারের তথ্য</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">নাম</label>
+                            <input type="text" name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter name" value="{{ customer.name }}" required>
+                        </div>
+                        <div>
+                            <label for="address" class="block mb-2 text-sm font-medium text-gray-900">ঠিকানা</label>
+                            <input type="text" name="address" id="address" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter address" value="{{ customer.address }}" required>
+                        </div>
+                        <div>
+                            <label for="mobile" class="block mb-2 text-sm font-medium text-gray-900">মোবাইল নং</label>
+                            <input type="text" name="mobile" id="mobile" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter mobile" value="{{ customer.mobile }}" required>
+                        </div>
+                        <div>
+                            <label for="total_loan_amount" class="block mb-2 text-sm font-medium text-gray-900">লোনের পরিমান</label>
+                            <input type="number" name="total_loan_amount" id="total_loan_amount" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter total loan amount" value="{{ customer.total_loan_amount }}" required>
+                        </div>
+                        <div>
+                            <label for="already_paid" class="block mb-2 text-sm font-medium text-gray-900">টাকা দিয়েছে</label>
+                            <input type="number" name="already_paid" id="already_paid" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter amount already paid" value="{{ customer.already_paid }}" required>
+                        </div>
+                        <div>
+                            <label for="have_to_paid" class="block mb-2 text-sm font-medium text-gray-900">আরো দিতে হবে</label>
+                            <input type="number" name="have_to_paid" id="have_to_paid" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter amount to be paid" value="{{ customer.have_to_paid }}" required>
+                        </div>
+                        <div>
+                            <label for="profit" class="block mb-2 text-sm font-medium text-gray-900">লাভ হবে</label>
+                            <input type="number" name="profit" id="profit" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter profit" value="{{ customer.profit }}" required>
+                        </div>
+                        <div>
+                            <label for="dp" class="block mb-2 text-sm font-medium text-gray-900">প্রফাইল পিকচার</label>
+                            <input type="file" name="dp" id="dp" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Documents Section -->
+                <div class="">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">কাস্টমারের ডকুমেন্টস</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="cus_nid" class="block mb-2 text-sm font-medium text-gray-900">কাস্টমারের জাতীয় পরিচয়পত্র</label>
+                            <input type="file" name="cus_nid" id="cus_nid" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        </div>
+                        <div>
+                            <label for="cus_photo" class="block mb-2 text-sm font-medium text-gray-900">কাস্টমারের পাসপোর্ট ছবি</label>
+                            <input type="file" name="cus_photo" id="cus_photo" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        </div>
+                        <div>
+                            <label for="cus_stamp" class="block mb-2 text-sm font-medium text-gray-900">কাস্টমারের চুক্তিপত্র </label>
+                            <input type="file" name="cus_stamp" id="cus_stamp" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jamindar Info and Documents Section -->
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">জামিনদারের তথ্য ও ডকুমেন্টস</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="jamin_name" class="block mb-2 text-sm font-medium text-gray-900">জামিনদারের নাম</label>
+                            <input type="text" name="jamin_name" id="jamin_name" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter jamindar name" value="{{ document.jamin_name }}" required>
+                        </div>
+                        <div>
+                            <label for="jamin_mobile" class="block mb-2 text-sm font-medium text-gray-900">জামিনদারের মোবাইল নং</label>
+                            <input type="text" name="jamin_mobile" id="jamin_mobile" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter jamindar mobile" value="{{ document.jamin_mobile }}" required>
+                        </div>
+                        <div>
+                            <label for="jamin_address" class="block mb-2 text-sm font-medium text-gray-900">জামিনদারের ঠিকানা</label>
+                            <input type="text" name="jamin_address" id="jamin_address" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Enter jamindar address" value="{{ document.jamin_address }}" required>
+                        </div>
+                        <div>
+                            <label for="jamin_nid" class="block mb-2 text-sm font-medium text-gray-900">জামিনদারের জাতীয় পরিচয়পত্র</label>
+                            <input type="file" name="jamin_nid" id="jamin_nid" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        </div>
+                        <div>
+                            <label for="jamin_photo" class="block mb-2 text-sm font-medium text-gray-900">জামিন্দারের পাসপোর্ট ছবি</label>
+                            <input type="file" name="jamin_photo" id="jamin_photo" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        </div>
+                        <div>
+                            <label for="jamin_stamp" class="block mb-2 text-sm font-medium text-gray-900">জামিনদারের চুক্তিপত্র</label>
+                            <input type="file" name="jamin_stamp" id="jamin_stamp" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-pink-600 text-white p-2 rounded-lg">আপডেট প্রফাইল</button>
+            </form>
+        </div>
+    </div>
+
+
+
+{% endblock %}
