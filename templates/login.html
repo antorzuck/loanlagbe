@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Loan Lagbe</title>
+    <title>Login - Sirajam Munira Friends Group</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
     
@@ -29,7 +31,7 @@
         
     </style>
 </head>
-<body class="h-screen">
+<body class="h-screen bg-gray-100">
   
   
 <section class="h-screen flex items-center justify-center">
@@ -51,9 +53,18 @@
   
             
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
-                    লোন লাগবে লগিন পোর্টাল
-                </h1>
+               
+                  
+                
+
+<div class="flex items-center justify-center">
+
+
+                <img src="{% static 'sirajammuniralogo.png' %}" alt="sirajam_munira_logo" class="rounded-full w-24">
+
+            </div>  
+
+
                 <form class="space-y-4 md:space-y-6" action="/signin" method="POST">
                 {% csrf_token %}
                   

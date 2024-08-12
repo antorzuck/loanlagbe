@@ -120,6 +120,7 @@ def after_creating(sender, instance, created, **kwargs):
         cust.save()
 
         if cust.already_paid >= cust.have_to_pay:
+            cust.have_to_paid = 0
             cust.mission_complete = True
             cust.save()
         TotalTake.objects.create(amount=instance.amount)
